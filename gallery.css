@@ -1,0 +1,66 @@
+* {
+    box-sizing: border-box;
+  }
+  
+  body {
+    margin: 0;
+  }
+  
+  .container {
+    background-color: #df25d3;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='105' viewBox='0 0 80 105'%3E%3Cg fill-rule='evenodd'%3E%3Cg id='death-star' fill='%234f298d' fill-opacity='0.22'%3E%3Cpath d='M20 10a5 5 0 0 1 10 0v50a5 5 0 0 1-10 0V10zm15 35a5 5 0 0 1 10 0v50a5 5 0 0 1-10 0V45zM20 75a5 5 0 0 1 10 0v20a5 5 0 0 1-10 0V75zm30-65a5 5 0 0 1 10 0v50a5 5 0 0 1-10 0V10zm0 65a5 5 0 0 1 10 0v20a5 5 0 0 1-10 0V75zM35 10a5 5 0 0 1 10 0v20a5 5 0 0 1-10 0V10zM5 45a5 5 0 0 1 10 0v50a5 5 0 0 1-10 0V45zm0-35a5 5 0 0 1 10 0v20a5 5 0 0 1-10 0V10zm60 35a5 5 0 0 1 10 0v50a5 5 0 0 1-10 0V45zm0-35a5 5 0 0 1 10 0v20a5 5 0 0 1-10 0V10z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    /*height: 100vh;*/
+    /*width: 100vw;*/
+    display: flex;
+    padding: 30px;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+  }
+  
+  .media-card {
+    height: 25rem;
+    width: 22rem;
+    margin-bottom: 10px;
+    border: 1px solid;
+  }
+  
+  .media-container {
+    height: 80%;
+    width: 100%;
+  }
+  
+  .action-container {
+    height: 20%;
+    width: 100%;
+  }
+
+  .action-container button {
+    width: 100%;
+    height: 50%;
+    color: white;
+    font-size: 1.5rem;
+    outline: none;
+    border: none;
+  }
+  
+  .media-gallery {
+    height: 100%;
+    width: 100%;
+  }
+  
+  .media-download {
+    background: linear-gradient(90deg, #9ebd13 0%, #008552 100%);
+  }
+  
+  .media-delete {
+    background: linear-gradient(90deg, #d53369 0%, #daae51 100%);
+  }
+
+  #back{
+    position: fixed;
+    bottom: 4rem;
+    right: 4rem;
+    height: 5rem;
+    width: 5rem;
+    font-size: 1.5rem;
+  }

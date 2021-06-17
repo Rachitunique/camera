@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        /*overflow done hidden as when we give windows height and width to canvas than a scroll bar appears*/
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas></canvas>
+    <script>
+      let canvas = document.querySelector("canvas");
+      //giving full windows height and width to canvas
+      canvas.height = window.innerHeight;
+      canvas.width = window.innerWidth;
+      //as we drawing 2d lines so gave 2d context
+      //let ctx = canvas.getContext("2d");
+      //if we haven't saperated the two strokes than they would have combined to give stroke of the same color
+      //ctx.beginPath();
+      //ctx.moveTo(100, 200);
+      //ctx.lineTo(300, 400);
+      //ctx.strokeStyle = "blue";
+      //ctx.lineWidth = 20;
+      //ctx.stroke();
+      //ctx.beginPath();
+      //cursor kha hai
+      //ctx.moveTo(300, 400);
+      //ctx.lineTo(600, 200);
+      //ctx.strokeStyle = "red";
+      //ctx.stroke();
+      //ctx.fillStyle = "red";
+      //ctx.strokeStyle = "blue"
+      //ctx.lineWidth = 30
+      //used to form rectangle with boundary only
+      //ctx.strokeRect(100,200,300,400);
+      //used to form rectangles with colors
+      //(x,y,height,width)
+      //ctx.fillRect(100,200,300,400);
+      let img = document.createElement("img");
+      img.src = "monalisa.jpg";
+      let ctx = canvas.getContext("2d");
+      //events kahte hai kuchh hone pe mai kuchh karunga promise kahte hai kuchh hone pe mai bta dunga fir resolve ya reject karna tumhare upar
+      //load is an eventlistner that is automatically cslls function when the image is loaded
+      img.addEventListener("load",function(){
+        //draw image from (0,0)
+        ctx.drawImage(img,0,0);
+      });
+    </script>
+  </body>
+</html>

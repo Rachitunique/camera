@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <input id="name" type="text" placeholder="Db name" value="DB" />
+    <input type="number" id="version" placeholder="1.0" value="1" />
+    <button id="create">Create</button>
+
+    <hr />
+
+    <input type="text" id="note" placeholder="Your note" />
+    <button id="add">Add Note</button>
+
+    <script>
+      let name = document.querySelector("#name");
+      let version = document.querySelector("#version");
+      let btn = document.querySelector("button#create");
+
+      let note = document.querySelector("#note");
+      let addBtn = document.querySelector("#add");
+
+      let db, v, dbAccess;
+
+      addBtn.addEventListener("click", function () {
+        let val = note.value;
+        //jab database ka access nhi hai to return
+        if (!dbAccess) {
+          alert("Please open a database to add note");
+          return;
+        }
+
+        //DB name => Notes
+        //hame object store(cs) me dalna hain data jo notes me dala hamne yha readwrite use kiya read only bhi hota hai (aur ye sab tab karenge jab db ka access hame mil jayega)
+        let tx = dbAccess.transaction("cs", "readwrite");
+        //hamne transaction store ka use karte hue objectstore(cs) nikala
+        let csObjectStore = tx.objectStore("cs");
+        let data = {
+          //nId is like primary key to uniqucly identify our object(here data object)
+          nId: Date.now(),
+          noteValue: val,
+        };
+        //data ko object store me add kra diya
+        csObjectStore.add(data);
+      });
+
+
+      btn.addEventListener("click", function () {
+        db = name.value;
+        v = version.value;
+        //request to browser that we want to open indexeddb
+        let request = indexedDB.open(db, v);
+        //request ke sucess hone pe ye chalega, to check if it was really created inspect>application>storage>indexeddb aur wo wha pe likha rahega ki hamare data konse web domain se bna hai
+        //sucess event db ke open aur create hone pe trigger hota hai
+        request.addEventListener("success", function () {
+          alert("db was created");
+          //access to our database
+          dbAccess = request.result;
+          //viewresults yha pe isliye call kiya kyuki yha pe guranted db access hai
+          viewresults();
+        });
+        //upgraded event occur when ham first time open karte hai ya fir version upgrade open karte hai aur iske baad sucess event bhi apne aap chalta hai
+        //agar kisi datae me object store karne hai to usko upgrade karna padega aur upgrade karenge uska version increase karke
+        request.addEventListener("upgradeneeded", function () {
+          alert("upgrade occured");
+          //this result is access to our database jo ham create ya open kar rhe hai 
+          let db = request.result;
+          //is database me ek object store bnao jiska naam cs hai, keypath ek object ko ek object store me uniqly identify karne ke kaam aata hai, keypath is like primary key in sql
+          db.createObjectStore("cs", { keyPath: "nId" });
+        });
+
+        request.addEventListener("error", function () {
+          alert("some error occured");
+        });
+      });
+
+      function viewresults(){
+        //code jab hum store kare to cs ke object store se sare object console pr print
+        //assumption ki jb bhi ye function chalega mere pass dbAccess hoga          
+          //ab ham tx se readonly operation kar rhe hai pahle read write kar rhe the
+          let  tx = dbAccess.transaction("cs" , "readonly");
+          let csobjectstore = tx.objectStore("cs");
+          //cursor ek pointer hota hai jo hamare object store ke pahle object ko point karta hai aur usse ham traverse kar sakde ne
+          let req = csobjectstore.openCursor();
+          req.addEventListener("success" , function(){
+              let cursor = req.result;
+              if(cursor){
+                  console.log(cursor.value);
+                  //this is a request to complete the current event and trigger the sucess event for next iteration
+                  cursor.continue();
+              }
+          })
+      }
+    </script>
+  </body>
+</html>
